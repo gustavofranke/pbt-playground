@@ -1,7 +1,13 @@
+{-# LANGUAGE DeriveGeneric #-}
+
 -- | Generating Random Test Cases
 module GenerateAndSample where
 
+import GHC.Generics
+
 import Test.QuickCheck
+import Test.QuickCheck.Arbitrary.Generic
+import Test.QuickCheck.Instances ()
 
 a :: IO Integer
 a = generate $ elements [1,2,3]
@@ -22,15 +28,13 @@ data MyType = MyType {
     foo :: Int
   , bar :: Bool
   , baz :: Float
-  } deriving (Show)
+  } deriving (Show, Generic)
 
 f :: IO MyType
 f = generate $ MyType <$> arbitrary <*> arbitrary <*> arbitrary
 
--- {-# LANGUAGE DeriveGeneric #-}
--- import GHC.Generics
--- import Generic.Random.Generic
--- f0 = generate (genericArbitrary :: Gen MyType)
+f0 :: IO MyType
+f0 = generate (genericArbitrary :: Gen MyType)
 
 myList :: Arbitrary a => Gen [a]
 myList =
