@@ -26,6 +26,7 @@ test-suite test
   other-modules:       GenerateAndSample
                      , SpecifyingLaws
                      , RefiningGeneratedData
+                     , TestCaseDistributionShrinking
   hs-source-dirs:      test
   build-depends:       base >= 4.7 && <5
                      , QuickCheck >2.13
