@@ -1,4 +1,5 @@
 {-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE TemplateHaskell #-}
 
 -- | Generating Random Test Cases
 module GenerateAndSample where
@@ -65,3 +66,13 @@ h = generate (resize 1000 flexList :: Gen [Int])
 
 i :: IO [Int]
 i = generate (scale (*33) flexList :: Gen [Int])
+
+---------------------------
+return []
+runTests0 :: IO Bool
+runTests0 = $quickCheckAll
+
+runTests :: IO Bool
+runTests =
+  $forAllProperties $
+    quickCheckWithResult (stdArgs {maxSuccess = 10000})

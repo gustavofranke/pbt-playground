@@ -1,17 +1,16 @@
-{-# LANGUAGE TemplateHaskell #-}
-{-# LANGUAGE DeriveGeneric #-}
-
+-- | Running Multiple Tests
 module Main where
 
-import Test.QuickCheck
-import System.Exit
+import qualified GenerateAndSample as GS
+import qualified SpecifyingLaws   as SL
+import qualified RefiningGeneratedData as RG
+import qualified TestCaseDistributionShrinking as TC
 
-runTests :: IO Bool
-runTests = $quickCheckAll
+import System.Exit ( exitFailure, exitSuccess )
 
 main :: IO ()
 main = do
-  good <- and <$> sequence [runTests]
+  good <- and <$> sequence [GS.runTests, SL.runTests, RG.runTests, TC.runTests]
   if good
      then exitSuccess
      else exitFailure
